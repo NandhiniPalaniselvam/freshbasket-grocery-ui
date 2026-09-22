@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FreshBasket - Online Grocery Store</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    color: #333;
+    background-image: url("images/background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+.navbar {
+    width: 100%;
+    min-height: 70px;
+    background: white;
+    display: flex;
+    align-items: center;
+    padding: 12px 5%;
+    gap: 25px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #84c225;
+    white-space: nowrap;
+}
+
+.logo span {
+    color: #f58220;
+}
+
+.nav-links {
+    display: flex;
+    gap: 22px;
+    white-space: nowrap;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: #84c225;
+}
+
+.search {
+    flex: 1;
+    max-width: 500px;
+    height: 42px;
+    display: flex;
+    background: #f3f3f3;
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+.search input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 0 15px;
+    background: transparent;
+    font-size: 14px;
+}
+
+.search button {
+    width: 50px;
+    border: none;
+    background: #84c225;
+    color: white;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+.login-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+.cart {
+    border: none;
+    background: #84c225;
+    color: white;
+    padding: 11px 17px;
+    border-radius: 7px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.hero {
+    width: 90%;
+    min-height: 320px;
+    margin: 30px auto;
+    padding: 50px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.90);
+}
+
+.hero-content {
+    max-width: 650px;
+}
+
+.hero h1 {
+    font-size: 45px;
+    line-height: 1.15;
+    color: #3d650c;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.shop-btn {
+    border: none;
+    background: #84c225;
+    color: white;
+    padding: 13px 28px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.shop-btn:hover {
+    background: #6ea51d;
+}
+
+.container {
+    width: 90%;
+    margin: auto;
+}
+
+.section {
+    background: rgba(255,255,255,0.95);
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+
+.section-title {
+    font-size: 26px;
+    margin-bottom: 22px;
+    color: #333;
+}
+
+.categories {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 18px;
+}
+
+.category {
+    background: #f8f8f8;
+    padding: 20px 10px;
+    text-align: center;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.category:hover {
+    transform: translateY(-5px);
+    background: #edf8dd;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.category-icon {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.category p {
+    font-weight: bold;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 18px;
+}
+
+.product {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 12px;
+    transition: 0.3s;
+}
+
+.product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+.product-img {
+    width: 100%;
+    height: 145px;
+    background: #f7f7f7;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 70px;
+}
+
+.product h3 {
+    font-size: 16px;
+    margin-top: 12px;
+    margin-bottom: 5px;
+}
+
+.quantity {
+    color: #777;
+    font-size: 13px;
+}
+
+.price {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.add-btn {
+    width: 100%;
+    padding: 9px;
+    border: 1px solid #84c225;
+    background: white;
+    color: #84c225;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.add-btn:hover {
+    background: #84c225;
+    color: white;
+}
+
+.offers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.offer {
+    padding: 25px;
+    border-radius: 12px;
+    background: #fff2c7;
+}
+
+.offer:nth-child(2) {
+    background: #dff4ff;
+}
+
+.offer:nth-child(3) {
+    background: #e4f7d2;
+}
+
+.offer h3 {
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.offer p {
+    color: #555;
+}
+
+.about-text {
+    color: #555;
+    line-height: 1.8;
+    font-size: 16px;
+}
+
+.about-points {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.about-box {
+    background: #f7f7f7;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.about-box h3 {
+    margin-bottom: 8px;
+    color: #84c225;
+}
+
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.contact-info {
+    line-height: 2.2;
+    font-size: 16px;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    outline: none;
+}
+
+.contact-form textarea {
+    height: 100px;
+    resize: none;
+}
+
+.contact-form button {
+    padding: 12px;
+    background: #84c225;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+footer {
+    background: #222;
+    color: white;
+    text-align: center;
+    padding: 30px;
+    margin-top: 30px;
+}
+
+footer h2 {
+    color: #84c225;
+    margin-bottom: 10px;
+}
+
+footer p {
+    color: #ccc;
+}
+
+@media(max-width: 1200px) {
+    .navbar {
+        gap: 15px;
+    }
+
+    .nav-links {
+        gap: 12px;
+    }
+
+    .products {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .categories {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media(max-width: 700px) {
+    .navbar {
+        flex-wrap: wrap;
+        padding: 15px;
+    }
+
+    .logo {
+        width: 100%;
+    }
+
+    .nav-links {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .search {
+        order: 4;
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .hero {
+        width: 94%;
+        padding: 30px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .container {
+        width: 94%;
+    }
+
+    .products {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .categories {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .offers {
+        grid-template-columns: 1fr;
+    }
+
+    .about-points {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 450px) {
+    .products {
+        grid-template-columns: 1fr;
+    }
+
+    .categories {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .nav-links {
+        font-size: 13px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">fresh<span>basket</span></div>
+
+    <div class="nav-links">
+        <a href="#products">Products</a>
+        <a href="#about">About Us</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <div class="search">
+        <input type="text" id="searchInput" placeholder="Search for products...">
+        <button onclick="searchProduct()">🔍</button>
+    </div>
+
+    <button class="login-btn" onclick="loginMessage()">👤 Login</button>
+
+    <button class="cart">
+        🛒 Cart (<span id="cartCount">0</span>)
+    </button>
+</nav>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>Fresh Groceries<br>Delivered To You</h1>
+        <p>Shop fresh fruits, vegetables, dairy products, snacks and daily essentials at affordable prices.</p>
+        <button class="shop-btn" onclick="goToProducts()">Shop Now</button>
+    </div>
+</section>
+
+<div class="container">
+
+<section class="section">
+    <h2 class="section-title">Shop By Category</h2>
+
+    <div class="categories">
+        <div class="category">
+            <div class="category-icon">🍎</div>
+            <p>Fruits</p>
+        </div>
+
+        <div class="category">
+            <div class="category-icon">🥦</div>
+            <p>Vegetables</p>
+        </div>
+
+        <div class="category">
+            <div class="category-icon">🥛</div>
+            <p>Dairy</p>
+        </div>
+
+        <div class="category">
+            <div class="category-icon">🍪</div>
+            <p>Snacks</p>
+        </div>
+
+        <div class="category">
+            <div class="category-icon">🍚</div>
+            <p>Staples</p>
+        </div>
+
+        <div class="category">
+            <div class="category-icon">🧴</div>
+            <p>Personal Care</p>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="products">
+    <h2 class="section-title">Popular Products</h2>
+
+    <div class="products">
+
+        <div class="product">
+            <div class="product-img">🍎</div>
+            <h3>Fresh Apples</h3>
+            <p class="quantity">1 kg</p>
+            <p class="price">₹149</p>
+            <button class="add-btn" onclick="addToCart('Fresh Apples')">ADD</button>
+        </div>
+
+        <div class="product">
+            <div class="product-img">🍌</div>
+            <h3>Fresh Banana</h3>
+            <p class="quantity">1 dozen</p>
+            <p class="price">₹59</p>
+            <button class="add-btn" onclick="addToCart('Fresh Banana')">ADD</button>
+        </div>
+
+        <div class="product">
+            <div class="product-img">🍊</div>
+            <h3>Fresh Orange</h3>
+            <p class="quantity">1 kg</p>
+            <p class="price">₹99</p>
+            <button class="add-btn" onclick="addToCart('Fresh Orange')">ADD</button>
+        </div>
+
+        <div class="product">
+            <div class="product-img">🥛</div>
+            <h3>Fresh Milk</h3>
+            <p class="quantity">1 litre</p>
+            <p class="price">₹62</p>
+            <button class="add-btn" onclick="addToCart('Fresh Milk')">ADD</button>
+        </div>
+
+        <div class="product">
+            <div class="product-img">🍚</div>
+            <h3>Premium Rice</h3>
+            <p class="quantity">5 kg</p>
+            <p class="price">₹399</p>
+            <button class="add-btn" onclick="addToCart('Premium Rice')">ADD</button>
+        </div>
+
+        <div class="product">
+            <div class="product-img">🥔</div>
+            <h3>Fresh Potato</h3>
+            <p class="quantity">1 kg</p>
+            <p class="price">₹45</p>
+            <button class="add-btn" onclick="addToCart('Fresh Potato')">ADD</button>
+        </div>
+
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="section-title">Daily Essentials</h2>
+
+    <div class="products">
+
+        <div class="product">
+            <div class="product-img">🍞</div>
+            <h3>Brown Bread</h3>
+            <p class="quantity">400 g</p>
+            <p class="price">₹45</p>
+            <button class="add-btn" onclick="addToCart('Brown Bread')">ADD</button>
+        </div>
+
+        <div class="product">
+            <div class="product-img">🥚</div>
+            <h3>Fresh Eggs</h3>
+            <p class="quantity">12 pieces</p>
+            <p class="price">₹85</p>
+            <button class="add-btn" onclick="addToCart('Fresh Eggs')">ADD</button>
+        </div>
+
+        <div class="product">
+            <div class="product-img">🧈</div>
+            <h3>Butter</h3>
+            <p class="quantity">500 g</p>
+            <p class="price">₹250</p>
+            <button class="add-btn" onclick="addToCart('Butter')">ADD</button>
+        </div>
+
+        <div class="product">
+            <div class="product-img">🧃</div>
+            <h3>Fruit Juice</h3>
+            <p class="quantity">1 litre</p>
+            <p class="price">₹120</p>
+            <button class="add-btn" onclick="addToCart('Fruit Juice')">ADD</button>
+        </div>
+
+        <div class="product">
+            <div class="product-img">🍪</div>
+            <h3>Chocolate Cookies</h3>
+            <p class="quantity">200 g</p>
+            <p class="price">₹80</p>
+            <button class="add-btn" onclick="addToCart('Chocolate Cookies')">ADD</button>
+        </div>
+
+        <div class="product">
+            <div class="product-img">🥣</div>
+            <h3>Oats</h3>
+            <p class="quantity">500 g</p>
+            <p class="price">₹160</p>
+            <button class="add-btn" onclick="addToCart('Oats')">ADD</button>
+        </div>
+
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="section-title">Special Offers</h2>
+
+    <div class="offers">
+        <div class="offer">
+            <h3>20% OFF</h3>
+            <p>On fresh fruits and vegetables</p>
+        </div>
+
+        <div class="offer">
+            <h3>₹100 OFF</h3>
+            <p>On orders above ₹999</p>
+        </div>
+
+        <div class="offer">
+            <h3>FREE DELIVERY</h3>
+            <p>On your first order</p>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="about">
+    <h2 class="section-title">About Us</h2>
+
+    <p class="about-text">
+        FreshBasket is a simple online grocery shopping platform designed to make daily grocery shopping easier and more convenient. Customers can explore fresh fruits, vegetables, dairy products, snacks, staples and other everyday essentials from one place.
+    </p>
+
+    <div class="about-points">
+
+        <div class="about-box">
+            <h3>🥬 Fresh Products</h3>
+            <p>Quality grocery products for your everyday needs.</p>
+        </div>
+
+        <div class="about-box">
+            <h3>🚚 Easy Delivery</h3>
+            <p>Convenient delivery directly to your doorstep.</p>
+        </div>
+
+        <div class="about-box">
+            <h3>💰 Great Offers</h3>
+            <p>Attractive offers on everyday grocery products.</p>
+        </div>
+
+    </div>
+</section>
+
+<section class="section" id="contact">
+    <h2 class="section-title">Contact Us</h2>
+
+    <div class="contact-container">
+
+        <div class="contact-info">
+            <p>📧 <strong>Email:</strong> support@freshbasket.com</p>
+            <p>📞 <strong>Phone:</strong> +91 98765 43210</p>
+            <p>📍 <strong>Location:</strong> Tamil Nadu, India</p>
+            <p>🕒 <strong>Working Hours:</strong> 9:00 AM - 8:00 PM</p>
+        </div>
+
+        <form class="contact-form" onsubmit="sendMessage(event)">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+
+    </div>
+</section>
+
+</div>
+
+<footer>
+    <h2>freshbasket</h2>
+    <p>Fresh groceries delivered to your doorstep.</p>
+    <p style="margin-top:15px;">© 2026 FreshBasket. All Rights Reserved.</p>
+</footer>
+
+<script>
+let cartCount = 0;
+
+function addToCart(productName) {
+    cartCount++;
+    document.getElementById("cartCount").innerText = cartCount;
+    alert(productName + " added to cart!");
+}
+
+function goToProducts() {
+    document.getElementById("products").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+function searchProduct() {
+    let search = document.getElementById("searchInput").value.trim();
+
+    if (search === "") {
+        alert("Please enter a product name.");
+    } else {
+        alert("Searching for: " + search);
+    }
+}
+
+function loginMessage() {
+    alert("Login page will be added later.");
+}
+
+function sendMessage(event) {
+    event.preventDefault();
+    alert("Thank you! Your message has been submitted.");
+}
+</script>
+
+</body>
+</html>
